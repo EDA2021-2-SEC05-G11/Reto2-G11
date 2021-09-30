@@ -31,6 +31,7 @@ from DISClib.ADT import map as mp
 from DISClib.DataStructures import mapentry as me
 from DISClib.Algorithms.Sorting import shellsort as sa
 assert cf
+from DISClib.Algorithms.Sorting import mergesort as me
 
 """
 Se define la estructura de un catálogo de videos. El catálogo tendrá dos listas, una para los videos, otra para las categorias de
@@ -80,6 +81,48 @@ def buscarporMedio(catalog, medio):
     obras = mp.get(catalog['Medium'], medio)
     print(obras)
 
+def comparacionDateAcquired(e1, e2): 
+    e1 = e1['Date']
+    e2 = e2['Date']
+    p1 = None
+    p2 = None
+
+    if len(e1) > 0 :
+        e1 = datetime.strptime(e1, '%Y-%m-%d') 
+        p1 = True
+    else:
+        p1 = False
+
+        
+    if len(e2) > 0:
+        e2 = datetime.strptime(e2, '%Y-%m-%d') 
+        p2= True
+    else:
+        p2 = False
+
+    if p1==False:
+        return (False)
+    if p2==False:
+        return (False)
+    if p1==True and p2==True:
+    
+     if e1 < e2:
+        
+        return (True)
+
+     else:
+
+        return(False)     
+
+def obrasantiguas(catalog, numero, medio):
+    Lista = lt.newList(datastructure='ARRAY_LIST')
+    obras = mp.get(catalog['Medium'], medio)
+    lt.addLast(Lista, obras)
+    
+    sub_list = lt.subList(Lista, 1, numero)
+    sorted_list = me.sort(sub_list, comparacionDateAcquired) 
+    
+    return sorted_list
 
 
 

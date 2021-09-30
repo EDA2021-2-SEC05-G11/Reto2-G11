@@ -70,6 +70,10 @@ while True:
         Medio = str(input("Digite el medio: "))
         print(controller.medio(catalog, Medio))
 
+    elif int(inputs[0]) == 4:
+        numero = int(input("Digite el numero de obras a imprimir: "))
+        medio = str(input("Digite el medio: "))
+        print(controller.obrasmasantiguas(catalog, numero, medio))
     else:
         sys.exit(0)
 sys.exit(0)

@@ -75,3 +75,5 @@ def pruebauno(catalog):
 def medio(catalog, Medio):
     return model.buscarporMedio(catalog,Medio)
 
+def obrasmasantiguas(catalog, numero, medio):
+    return model.obrasantiguas(catalog, numero, medio)
