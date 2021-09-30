@@ -36,6 +36,27 @@ assert cf
 Se define la estructura de un catálogo de videos. El catálogo tendrá dos listas, una para los videos, otra para las categorias de
 los mismos.
 """
+def newCatalog():
+    catalog = {'artists':None,
+               'artworks':None,
+               'Medium':None
+    }
+    catalog['artists'] = lt.newList(datastructure='SINGLE_LINKED')
+    catalog['artworks'] = lt.newList(datastructure='SINGLE_LINKED')
+    catalog['Medium'] = mp.newMap(800,
+                                   maptype='CHAINING',
+                                   loadfactor=4.0)
+
+    return catalog
+
+
+# Funciones para agregar informacion al catalogo
+def addArtist(catalog, artist):
+    lt.addLast(catalog['artists'], artist)
+
+def addArtworks(catalog, artworks):
+    # Se adiciona el artista a la lista de artistas
+    lt.addLast(catalog['artworks'], artworks)
 
 # Construccion de modelos
 
