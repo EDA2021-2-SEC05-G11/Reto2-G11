@@ -62,7 +62,7 @@ while True:
         print('Obras cargadas: ' + str(lt.size(catalog['artworks'])))
 
     elif int(inputs[0]) == 2:
-        pass
+        print(controller.pruebauno(catalog))
 
     else:
         sys.exit(0)

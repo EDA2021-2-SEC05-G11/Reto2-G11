@@ -36,20 +36,19 @@ assert cf
 Se define la estructura de un catálogo de videos. El catálogo tendrá dos listas, una para los videos, otra para las categorias de
 los mismos.
 """
+
 def newCatalog():
     catalog = {'artists':None,
                'artworks':None,
                'Medium':None
     }
-    catalog['artists'] = lt.newList(datastructure='SINGLE_LINKED')
-    catalog['artworks'] = lt.newList(datastructure='SINGLE_LINKED')
+    catalog['artists'] = lt.newList(datastructure='ARRAY_LIST')
+    catalog['artworks'] = lt.newList(datastructure='ARRAY_LIST')
     catalog['Medium'] = mp.newMap(800,
                                    maptype='CHAINING',
                                    loadfactor=4.0)
 
     return catalog
-
-
 # Funciones para agregar informacion al catalogo
 def addArtist(catalog, artist):
     lt.addLast(catalog['artists'], artist)
@@ -57,15 +56,17 @@ def addArtist(catalog, artist):
 def addArtworks(catalog, artworks):
     # Se adiciona el artista a la lista de artistas
     lt.addLast(catalog['artworks'], artworks)
-
-# Construccion de modelos
-
-# Funciones para agregar informacion al catalogo
-
 # Funciones para creacion de datos
 
 # Funciones de consulta
-
+def prueba(catalog):
+    Lst = []
+    for obra in range(1, lt.size(catalog['artworks'])+1):
+        Obra = lt.getElement(catalog['artworks'], obra)
+        Medio = Obra["Medium"]
+        Lst.append(Medio)
+    set(Lst)
+    print(Lst)
 # Funciones utilizadas para comparar elementos dentro de una lista
 
 # Funciones de ordenamiento
