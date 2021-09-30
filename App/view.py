@@ -36,8 +36,10 @@ operación solicitada
 
 def printMenu():
     print("Bienvenido")
-    print("1- Cargar información en el catálogo")
-    print("2- ")
+    print("1- Cargar información en el catálogo: ")
+    print("2- Crear indices (MAPS) por medio: ")
+    print("3- Mostrar obras por medio: ")
+
 
 catalog = None
 
@@ -63,6 +65,10 @@ while True:
 
     elif int(inputs[0]) == 2:
         print(controller.pruebauno(catalog))
+
+    elif int(inputs[0]) == 3:
+        Medio = str(input("Digite el medio: "))
+        print(controller.medio(catalog, Medio))
 
     else:
         sys.exit(0)

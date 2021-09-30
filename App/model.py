@@ -70,10 +70,19 @@ def prueba(catalog):
            diccionario[obra["Medium"]]=[obra]
 
     for i in diccionario.keys():
-        
+
         mp.put( catalog['Medium'], i, diccionario[i])
 
     return(catalog["Medium"])
+
+def buscarporMedio(catalog, medio):
+
+    obras = mp.get(catalog['Medium'], medio)
+    print(obras)
+
+
+
+
 # Funciones utilizadas para comparar elementos dentro de una lista
 
 # Funciones de ordenamiento

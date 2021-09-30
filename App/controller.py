@@ -71,3 +71,7 @@ def loadArtworks(catalog):
 
 def pruebauno(catalog):
     return model.prueba(catalog)
+
+def medio(catalog, Medio):
+    return model.buscarporMedio(catalog,Medio)
+
