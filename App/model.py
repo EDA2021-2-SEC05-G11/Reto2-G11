@@ -68,8 +68,12 @@ def prueba(catalog):
            diccionario[obra["Medium"]].append(obra)
         else:
            diccionario[obra["Medium"]]=[obra]
+
+    for i in diccionario.keys():
         
-    return(diccionario)
+        mp.put( catalog['Medium'], i, diccionario[i])
+
+    return(catalog["Medium"])
 # Funciones utilizadas para comparar elementos dentro de una lista
 
 # Funciones de ordenamiento
