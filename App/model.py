@@ -60,13 +60,16 @@ def addArtworks(catalog, artworks):
 
 # Funciones de consulta
 def prueba(catalog):
-    Lst = []
-    for obra in range(1, lt.size(catalog['artworks'])+1):
-        Obra = lt.getElement(catalog['artworks'], obra)
-        Medio = Obra["Medium"]
-        Lst.append(Medio)
-    set(Lst)
-    print(Lst)
+
+    diccionario={}
+    for i in range(1, lt.size(catalog['artworks'])+1):
+        obra = lt.getElement(catalog['artworks'], i)
+        if obra["Medium"] in diccionario:
+           diccionario[obra["Medium"]].append(obra)
+        else:
+           diccionario[obra["Medium"]]=[obra]
+        
+    return(diccionario)
 # Funciones utilizadas para comparar elementos dentro de una lista
 
 # Funciones de ordenamiento
