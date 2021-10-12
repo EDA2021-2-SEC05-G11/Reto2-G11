@@ -25,6 +25,7 @@ import sys
 import controller
 from DISClib.ADT import list as lt
 assert cf
+from time import process_time
 
 
 """
@@ -39,6 +40,8 @@ def printMenu():
     print("1- Cargar información en el catálogo: ")
     print("2- Crear indices (MAPS) por medio: ")
     print("3- Mostrar obras por medio: ")
+    print("4- Crear indices (MAPS) por nacionalidad: ")
+    print("5- Saber numero de obras por nacionalidad: ")
 
 
 catalog = None
@@ -62,18 +65,20 @@ while True:
         loadData(catalog)
         print('Autores cargados: ' + str(lt.size(catalog['artists'])))
         print('Obras cargadas: ' + str(lt.size(catalog['artworks'])))
-
+        
     elif int(inputs[0]) == 2:
         print(controller.pruebauno(catalog))
-
+        print(process_time())
     elif int(inputs[0]) == 3:
         Medio = str(input("Digite el medio: "))
-        print(controller.medio(catalog, Medio))
+        controller.medio(catalog, Medio)
 
     elif int(inputs[0]) == 4:
-        numero = int(input("Digite el numero de obras a imprimir: "))
-        medio = str(input("Digite el medio: "))
-        print(controller.obrasmasantiguas(catalog, numero, medio))
+        print(controller.nacionalidad_(catalog))
+        print(process_time())
+    elif int(inputs[0]) == 5:
+        nacionalidad = str(input("Digite la nacionalidad: "))
+        controller.buscar_por_nacio(catalog, nacionalidad)
     else:
         sys.exit(0)
 sys.exit(0)

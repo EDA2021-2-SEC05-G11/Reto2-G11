@@ -77,3 +77,10 @@ def medio(catalog, Medio):
 
 def obrasmasantiguas(catalog, numero, medio):
     return model.obrasantiguas(catalog, numero, medio)
+
+def nacionalidad_(catalog):
+    return model.nacionlidad(catalog)
+
+def buscar_por_nacio(catalog, nacionalidad):
+    return model.buscarporNacionalidad(catalog,nacionalidad)
+
