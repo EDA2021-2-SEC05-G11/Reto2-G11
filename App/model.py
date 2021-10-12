@@ -33,6 +33,8 @@ from DISClib.Algorithms.Sorting import shellsort as sa
 assert cf
 from DISClib.Algorithms.Sorting import mergesort as me
 
+
+
 """
 Se define la estructura de un catálogo de videos. El catálogo tendrá dos listas, una para los videos, otra para las categorias de
 los mismos.
@@ -41,13 +43,18 @@ los mismos.
 def newCatalog():
     catalog = {'artists':None,
                'artworks':None,
-               'Medium':None
+               'Medium':None,
+               'Nationality':None
     }
     catalog['artists'] = lt.newList(datastructure='ARRAY_LIST')
     catalog['artworks'] = lt.newList(datastructure='ARRAY_LIST')
     catalog['Medium'] = mp.newMap(800,
-                                   maptype='CHAINING',
-                                   loadfactor=4.0)
+                                   maptype='PROBING',
+                                   loadfactor=0.50)
+    catalog['Nationality'] = mp.newMap(69,
+                                   maptype='PROBING',
+                                   loadfactor=0.50)
+
 
     return catalog
 # Funciones para agregar informacion al catalogo
@@ -59,7 +66,7 @@ def addArtworks(catalog, artworks):
     lt.addLast(catalog['artworks'], artworks)
 # Funciones para creacion de datos
 
-# Funciones de consulta
+# Funciones de labratorios
 def prueba(catalog):
 
     diccionario={}
@@ -123,6 +130,40 @@ def obrasantiguas(catalog, numero, medio):
     sorted_list = me.sort(sub_list, comparacionDateAcquired) 
     
     return sorted_list
+
+def nacionlidad(catalog):
+
+    diccionario={}
+    for i in range(1, lt.size(catalog['artists'])+1):
+        obra = lt.getElement(catalog['artists'], i)
+        if obra["Nationality"] in diccionario:
+           diccionario[obra["Nationality"]].append(obra)
+        else:
+           diccionario[obra["Nationality"]]=[obra]
+
+    for i in diccionario.keys():
+
+        mp.put( catalog['Nationality'], i, diccionario[i])
+
+    return(catalog["Nationality"])
+
+def buscarporNacionalidad(catalog, nacionalidad):
+    Lista = lt.newList(datastructure='ARRAY_LIST')
+    obras = mp.get(catalog['Nationality'], nacionalidad)
+    lt.addLast(Lista, obras)
+    lista_mini=[]
+    contador=0
+    for i in lt. iterator(Lista):
+        lista_mini.append(i['value'])
+    for elem in lista_mini:
+        for j in elem:
+            contador+=1
+    print("Existen "+str(contador)+" obras de la nacionalidad de "+ str(nacionalidad))
+
+# Requerimientos
+
+    
+
 
 
 
