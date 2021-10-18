@@ -44,6 +44,7 @@ def printMenu():
     print("E- Saber numero de obras por nacionalidad: ")
     print("2- REQ. 2: listar cronológicamente las adquisiciones")
     print("3- REQ. 3: clasificar las obras de un artista por técnica ")
+    print("5- REQ. 5: transportar obras según un departamento del museo ")
 
 
 catalog = None
@@ -103,6 +104,11 @@ while True:
         
         nombre=str(input("Ingrese el nombre del artista: \n"))
         print(controller.req3(catalog, nombre))
+    
+    elif int(inputs[0]) == 5:
+        
+        departamento=str(input("Ingrese el nombre del departamento del museo: \n"))
+        print(controller.req5(catalog, departamento))
 
     else:
         sys.exit(0)

@@ -134,6 +134,8 @@ def buscarporNacionalidad(catalog, nacionalidad):
 
 # Requerimientos
 
+# Req2
+
 def req2(catalog,fecha_inicial, fecha_final):
 
     artworks = catalog["artworks"]
@@ -331,7 +333,13 @@ def cantidad_purchase(map):
 
       total += len(mp.get(map, "Purchased with funds provided by the International Council of The Museum of Modern Art in honor of H.R.H. Duke Franz of Bavaria, and Committee on Drawings Funds")["value"])
 
+    if mp.get(map, "Purchased with funds provided by the Friends of Contemporary Drawing") != None: 
+
+      total += len(mp.get(map, "Purchased with funds provided by the Friends of Contemporary Drawing")["value"])
+      
     return total
+
+# Req3
 
 def req3(catalog, nombre):
     
@@ -425,6 +433,29 @@ def obtener_id(artistas, nombre):
             pass
 
     return id
+
+#Req5
+
+def req5(catalog, departamento):
+
+    obras = catalog["artworks"]
+    lista_departamentos = lt.newList(datastructure="ARRAY_LIST")
+    cantidad  = 0
+
+    for i in range(1, lt.size(obras)+1):
+
+          obra = lt.getElement(obras, i)
+          
+          if departamento.lower() == (obra["Department"]).lower():
+            
+            lt.addLast(lista_departamentos, obra)
+            cantidad += 1
+
+    print("Las obras a trasportar son " + str(cantidad) + " del departamento de " + departamento.lower())
+
+    return 
+
+
 
     
 

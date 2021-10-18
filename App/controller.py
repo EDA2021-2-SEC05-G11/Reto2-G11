@@ -89,4 +89,7 @@ def req2(catalog, fecha_inicial, fecha_final):
 
 def req3(catalog, nombre):
     return model.req3(catalog, nombre)
+
+def req5(catalog, departamento):
+    return model.req5(catalog, departamento)
     
