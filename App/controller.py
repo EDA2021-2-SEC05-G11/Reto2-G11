@@ -84,3 +84,9 @@ def nacionalidad_(catalog):
 def buscar_por_nacio(catalog, nacionalidad):
     return model.buscarporNacionalidad(catalog,nacionalidad)
 
+def req2(catalog, fecha_inicial, fecha_final):
+    return model.req2(catalog, fecha_inicial, fecha_final)
+
+def req3(catalog, nombre):
+    return model.req3(catalog, nombre)
+    

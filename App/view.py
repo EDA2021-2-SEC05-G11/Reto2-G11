@@ -37,11 +37,13 @@ operación solicitada
 
 def printMenu():
     print("Bienvenido")
-    print("1- Cargar información en el catálogo: ")
-    print("2- Crear indices (MAPS) por medio: ")
-    print("3- Mostrar obras por medio: ")
-    print("4- Crear indices (MAPS) por nacionalidad: ")
-    print("5- Saber numero de obras por nacionalidad: ")
+    print("A- Cargar información en el catálogo: ")
+    print("B- Crear indices (MAPS) por medio: ")
+    print("C- Mostrar obras por medio: ")
+    print("D- Crear indices (MAPS) por nacionalidad: ")
+    print("E- Saber numero de obras por nacionalidad: ")
+    print("2- REQ. 2: listar cronológicamente las adquisiciones")
+    print("3- REQ. 3: clasificar las obras de un artista por técnica ")
 
 
 catalog = None
@@ -59,26 +61,49 @@ while True:
     printMenu()
     inputs = input('Seleccione una opción para continuar\n')
 
-    if int(inputs[0]) == 1:
+    if  str(inputs[0]).lower() == "a":
         print("Cargando información de los archivos ....")
         catalog = initCatalog()
         loadData(catalog)
         print('Autores cargados: ' + str(lt.size(catalog['artists'])))
         print('Obras cargadas: ' + str(lt.size(catalog['artworks'])))
         
-    elif int(inputs[0]) == 2:
+    elif str(inputs[0]).lower() == "b":
         print(controller.pruebauno(catalog))
         print(process_time())
-    elif int(inputs[0]) == 3:
+    elif str(inputs[0]).lower() == "c":
         Medio = str(input("Digite el medio: "))
         controller.medio(catalog, Medio)
 
-    elif int(inputs[0]) == 4:
+    elif str(inputs[0]).lower() == "d":
         print(controller.nacionalidad_(catalog))
         print(process_time())
-    elif int(inputs[0]) == 5:
+    elif str(inputs[0]).lower() == "e":
         nacionalidad = str(input("Digite la nacionalidad: "))
         controller.buscar_por_nacio(catalog, nacionalidad)
+
+    elif int(inputs[0]) == 2:
+
+        print("Para ingresar la fecha siga las siguientes indicaciones\n")
+        anio_inicial = str(int(input("Digite el año inicial del rango cronologico: ")))
+        mes_inicial = str(int(input("Digite el mes inicial del rango cronologico : ")))
+        dia_inicial = str(int(input("Digite el dia inicial del rango cronologico: ")))
+
+        fecha_inicial= anio_inicial + "-" + mes_inicial + "-" + dia_inicial
+
+        anio_final = str(int(input("Digite el año final del rango cronologico: ")))
+        mes_final = str(int(input("Digite el mes final del rango cronologico: ")))
+        dia_final = str(int(input("Digite el dia final del rango cronologico: ")))
+
+        fecha_final= anio_final + "-" + mes_final + "-" + dia_final
+
+        print (controller.req2(catalog, fecha_inicial, fecha_final))
+
+    elif int(inputs[0]) == 3:
+        
+        nombre=str(input("Ingrese el nombre del artista: \n"))
+        print(controller.req3(catalog, nombre))
+
     else:
         sys.exit(0)
 sys.exit(0)
