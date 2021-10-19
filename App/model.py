@@ -45,7 +45,8 @@ def newCatalog():
     catalog = {'artists':None,
                'artworks':None,
                'Medium':None,
-               'Nationality':None
+               'Nationality':None,
+               'Begin_Date':None
     }
     catalog['artists'] = lt.newList(datastructure='ARRAY_LIST')
     catalog['artworks'] = lt.newList(datastructure='ARRAY_LIST')
@@ -56,6 +57,9 @@ def newCatalog():
                                    maptype='PROBING',
                                    loadfactor=0.50)
 
+    catalog['Begin_Date'] = mp.newMap(290, 
+                                    maptype='CHAINING',
+                                    loadfactor=4.0)
 
     return catalog
 # Funciones para agregar informacion al catalogo
@@ -133,6 +137,57 @@ def buscarporNacionalidad(catalog, nacionalidad):
     print("Existen "+str(contador)+" obras de la nacionalidad de "+ str(nacionalidad))
 
 # Requerimientos
+#Req 1
+def catalg_r1_begin(catalog):
+    diccionario={}
+    for i in range(1, lt.size(catalog['artists'])+1):
+        artista = lt.getElement(catalog['artists'], i)
+        artista['BeginDate'] =int(artista['BeginDate']) 
+        if int(artista["BeginDate"]) in diccionario:
+           diccionario[int(artista["BeginDate"])].append(artista)
+        else:
+           diccionario[int(artista["BeginDate"])]=[artista]
+    
+    for j in diccionario.keys():
+
+        mp.put( catalog['Begin_Date'], j, diccionario[j])
+    
+    return(catalog["Begin_Date"])
+
+def r1(catalog, añoini, añofini):
+
+    Lista_años = lt.newList(datastructure='ARRAY_LIST')
+    catalogo_begin = catalg_r1_begin(catalog)
+    Años = mp.keySet(catalogo_begin)
+    lista = []
+    for i in range(1, lt.size(Años)+1):
+        A= lt.getElement(Años, i)
+        lista.append(A)
+    lista.sort()
+    if añofini+1 not in lista:
+        lista = lista[lista.index(añoini):lista.index(añofini)]
+    else:
+        lista = lista[lista.index(añoini):lista.index(añofini+1)]
+    for j in lista:
+        Artista = mp.get(catalogo_begin, j)
+        lt.addLast(Lista_años, Artista)
+    contador = 0
+    for h in (Lista_años['elements']):
+        for j in h['value']:
+            contador+=1
+    print()
+    print("Existen "+str(contador)+" artistas que nacieron entre "+str(añoini)+ " y "+str(añofini)+".")
+    print()
+    print("Los primeros y ultimos 3 artistas en el rango son...")
+    print()
+    value_=0
+    lista_final = lt.newList(datastructure="ARRAY_LIST")
+    lt.addLast(lista_final, ((mp.get(catalogo_begin, añoini))['value'][0:3]))
+    if len((mp.get(catalogo_begin, añofini)['value'][-3:]))<3:
+        lt.addLast(lista_final, (((mp.get(catalogo_begin, añofini-1))['value'][-1:])))
+        lt.addLast(lista_final, (((mp.get(catalogo_begin, añofini))['value'][-3:])))
+    print(lista_final)
+    
 
 # Req2
 
@@ -434,6 +489,51 @@ def obtener_id(artistas, nombre):
 
     return id
 
+#Req 4 
+def r4(catalog):
+    mapa = catalog['Nationality']
+    
+    diccionario = {}
+    nacionalidades = ((mp.keySet(mapa)))
+    lista = []
+    for i in range( 1, lt.size(nacionalidades)+1):
+        H = lt.getElement(nacionalidades, i)
+        lista.append(H)
+    for j in lista:
+        contador = 0
+        for h in mp.get(mapa, j)['value']:
+            contador+=1
+            diccionario[j] = contador
+    if '' in diccionario.keys():
+        del(diccionario[''])
+    dicci_list = sorted(diccionario.items(), key=lambda x: x[1], reverse=True)
+    print("El TOP 10 de nacionalidades en el MoMA son...")
+
+    print(dicci_list[:10])
+
+    Constituent = (((mp.get(mapa, 'American'))['value'][0:3]))
+    Constituent_1 = (((mp.get(mapa, 'American'))['value'][-4:]))
+    lista_codigos = []
+    Lista_final = lt.newList(datastructure='ARRAY_LIST')
+    for i in range(len(Constituent)):
+       lista_codigos.append(str(Constituent[i]['ConstituentID']))
+
+    for k in range(len(Constituent_1)):
+       lista_codigos.append(str(Constituent_1[i]['ConstituentID']))
+    if str(Constituent_1[i]['ConstituentID']) in lista_codigos:
+           lista_codigos.append(str(Constituent_1[i-1]['ConstituentID']))
+    
+    for i in range(1, lt.size(catalog['artworks'])+1):
+        obra = lt.getElement(catalog['artworks'], i)
+        
+        for j in range(len(lista_codigos)):
+            if (obra['ConstituentID'][1:-1]) in lista_codigos[j]:
+                lt.addLast(Lista_final, obra)
+                
+    print()
+    print("La primeras y ultimas 3 obras de la nacionalidad American son...")
+    print()
+    print(Lista_final)
 #Req5
 
 def req5(catalog, departamento):

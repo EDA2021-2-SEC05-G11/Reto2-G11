@@ -42,8 +42,10 @@ def printMenu():
     print("C- Mostrar obras por medio: ")
     print("D- Crear indices (MAPS) por nacionalidad: ")
     print("E- Saber numero de obras por nacionalidad: ")
+    print("1- REQ. 1: listar cronológicamente los artistas: ")
     print("2- REQ. 2: listar cronológicamente las adquisiciones")
     print("3- REQ. 3: clasificar las obras de un artista por técnica ")
+    print("4- REQ. 4: clasificar las obras por la nacionalidad de sus creadores: ")
     print("5- REQ. 5: transportar obras según un departamento del museo ")
 
 
@@ -83,6 +85,11 @@ while True:
         nacionalidad = str(input("Digite la nacionalidad: "))
         controller.buscar_por_nacio(catalog, nacionalidad)
 
+    elif int(inputs[0]) == 1:
+        añoini =int(input("Digite el año inicial: ")) 
+        añofini = int(input("Digite el año final: "))
+        controller.r1(catalog, añoini, añofini)
+
     elif int(inputs[0]) == 2:
 
         print("Para ingresar la fecha siga las siguientes indicaciones\n")
@@ -105,6 +112,9 @@ while True:
         nombre=str(input("Ingrese el nombre del artista: \n"))
         print(controller.req3(catalog, nombre))
     
+    elif int(inputs[0]) == 4:
+        controller.req4(catalog)
+
     elif int(inputs[0]) == 5:
         
         departamento=str(input("Ingrese el nombre del departamento del museo: \n"))
