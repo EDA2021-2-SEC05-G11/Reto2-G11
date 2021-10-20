@@ -46,7 +46,8 @@ def newCatalog():
                'artworks':None,
                'Medium':None,
                'Nationality':None,
-               'Begin_Date':None
+               'Begin_Date':None,
+               'Department':None
     }
     catalog['artists'] = lt.newList(datastructure='ARRAY_LIST')
     catalog['artworks'] = lt.newList(datastructure='ARRAY_LIST')
@@ -58,6 +59,10 @@ def newCatalog():
                                    loadfactor=0.50)
 
     catalog['Begin_Date'] = mp.newMap(290, 
+                                    maptype='CHAINING',
+                                    loadfactor=4.0)
+    
+    catalog['Department'] = mp.newMap(11,
                                     maptype='CHAINING',
                                     loadfactor=4.0)
 
@@ -535,25 +540,63 @@ def r4(catalog):
     print()
     print(Lista_final)
 #Req5
+def catalg_r5_department(catalog):
+    diccionario={}
+    for i in range(1, lt.size(catalog['artworks'])+1):
+        obra = lt.getElement(catalog['artworks'], i)
+        obra['Department'] =obra['Department']
+        if obra["Department"] in diccionario:
+           diccionario[obra["Department"]].append(obra)
+        else:
+           diccionario[obra["Department"]]=[obra]
+    
+    for j in diccionario.keys():
+
+        mp.put( catalog['Department'], j, diccionario[j])
+    
+    return(catalog["Department"])
 
 def req5(catalog, departamento):
+    catalogo_dept = catalg_r5_department(catalog)
+    #Constantes
+    costo_segun_tam = 72.00
+    costo_defecto = 48.00
+    Costo_total_sin_info = 0
+    Costo_total_con_info = 0
+    Costo_total_translado = 0
+    #Listas segun info
+    Lista_sin_info = lt.newList(datastructure='ARRAY_LIST')
+    Lista_con_info = lt.newList(datastructure='ARRAY_LIST')
+    
+    for i in mp.get(catalogo_dept, departamento)['value']:
+        #Caso no obras con info suficiente
+         if i['Dimensions'] == '':
+             lt.addLast(Lista_sin_info,  i)
+         elif i['Dimensions'] == 'Variable':
+             lt.addLast(Lista_sin_info,  i)
+         elif i['Dimensions'] == 'various': 
+             lt.addLast(Lista_sin_info,  i)
+         elif i['Dimensions'] == 'Various composition and sheet dimensions.':
+             lt.addLast(Lista_sin_info,  i)
+         elif i['Dimensions'] == 'Various dimensions':
+             lt.addLast(Lista_sin_info,  i)
+         elif i['Dimensions'] == 'Y': 
+            lt.addLast(Lista_sin_info,  i)
+         elif i['Dimensions'] == 'dimensions vary':
+             lt.addLast(Lista_sin_info,  i)
+         elif i['Dimensions'] == 'Dimensions: various':
+             lt.addLast(Lista_sin_info,  i)
+         elif i['Dimensions'] == 'Duration variable':
+             lt.addLast(Lista_sin_info,  i)
+         elif i['Dimensions'] == 'N':
+             lt.addLast(Lista_sin_info,  i)
+         elif i['Dimensions'] == 'Dimensions and duration variable':
+             lt.addLast(Lista_sin_info,  i)
+    Costo_total_sin_info = (lt.size(Lista_sin_info)*costo_defecto) 
+    print(lt.size(Lista_sin_info), Costo_total_sin_info)
+    
 
-    obras = catalog["artworks"]
-    lista_departamentos = lt.newList(datastructure="ARRAY_LIST")
-    cantidad  = 0
-
-    for i in range(1, lt.size(obras)+1):
-
-          obra = lt.getElement(obras, i)
-          
-          if departamento.lower() == (obra["Department"]).lower():
-            
-            lt.addLast(lista_departamentos, obra)
-            cantidad += 1
-
-    print("Las obras a trasportar son " + str(cantidad) + " del departamento de " + departamento.lower())
-
-    return 
+    
 
 
 

@@ -118,7 +118,7 @@ while True:
     elif int(inputs[0]) == 5:
         
         departamento=str(input("Ingrese el nombre del departamento del museo: \n"))
-        print(controller.req5(catalog, departamento))
+        controller.req5(catalog, departamento)
 
     else:
         sys.exit(0)
