@@ -559,11 +559,11 @@ def catalg_r5_department(catalog):
 def req5(catalog, departamento):
     catalogo_dept = catalg_r5_department(catalog)
     #Constantes
-    costo_segun_tam = 72.00
+    
     costo_defecto = 48.00
     Costo_total_sin_info = 0
     Costo_total_con_info = 0
-    Costo_total_translado = 0
+    costo_total_translado = 0
     #Listas segun info
     Lista_sin_info = lt.newList(datastructure='ARRAY_LIST')
     Lista_con_info = lt.newList(datastructure='ARRAY_LIST')
@@ -592,18 +592,94 @@ def req5(catalog, departamento):
              lt.addLast(Lista_sin_info,  i)
          elif i['Dimensions'] == 'Dimensions and duration variable':
              lt.addLast(Lista_sin_info,  i)
+         else: 
+             lt.addLast(Lista_con_info,  i)
+
     Costo_total_sin_info = (lt.size(Lista_sin_info)*costo_defecto) 
     print(lt.size(Lista_sin_info), Costo_total_sin_info)
-    
-
-    
 
 
 
-    
+    for i in range( 1, lt.size(Lista_con_info)+1):
 
+        obra = lt.getElement(Lista_con_info, i)
 
+        depth = obra["Depth (cm)"]
+        diameter = obra["Diameter (cm)"]
+        height = obra["Height (cm)"]
+        Width = obra["Width (cm)"]
+        length = obra[ "Length (cm)"]
 
+        if len(depth) == 0:
+
+           depth = 1
+
+        
+        elif float(depth) == 0.0:
+
+           depth = 1
+
+        else: 
+
+           depth = float(depth)/100
+
+        if len(diameter) == 0:
+
+          diameter = 1
+
+        elif float(diameter) == 0.0:
+
+          diameter = 1
+
+        else: 
+
+           diameter= float(diameter)/100
+
+        if len(height) == 0:
+
+          height = 1
+
+        elif float(height) == 0.0:
+
+          height = 1
+
+        else: 
+
+           height = float(height)/100
+
+        if len(Width) == 0:
+
+           Width = 1
+
+        elif float(Width) == 0.0:
+
+          Width = 1
+
+        else: 
+
+           Width = float(Width)/100
+
+        if len(length) == 0:
+
+          length = 1 
+
+        elif float(length) == 0.0:
+
+          length = 1 
+
+        else: 
+
+           length = float(length)/100
+
+        costo = (((depth * diameter * height * Width * length)/0.0001)/72.00)/2 
+        Costo_total_con_info += costo
+
+    costo_total_translado = Costo_total_con_info + Costo_total_sin_info
+    print("El costo estimado en USD es de " + str(costo_total_translado))
+
+    return 
+
+        
 
 # Funciones utilizadas para comparar elementos dentro de una lista
 
