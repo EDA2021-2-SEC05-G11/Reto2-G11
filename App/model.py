@@ -221,7 +221,7 @@ def req2(catalog,fecha_inicial, fecha_final):
 
     lista_sort = sa.sort(lista, comparacionDateAcquired)  
     lista_final = lt.subList(lista_sort, 1, 3)
-    lista_ultimos = lt.subList(lista_sort, lt.size(lista_sort)-3, 3)
+    lista_ultimos = lt.subList(lista_sort, -3, 3)
 
     for i in range(1, lt.size(lista_ultimos)+1):
         lt.addLast(lista_final, lt.getElement(lista_ultimos, i))
@@ -603,10 +603,9 @@ def req5(catalog, departamento):
     Costo_total_sin_info = (lt.size(Lista_sin_info)*costo_defecto)
     for i in range(1, lt.size(Lista_sin_info)):
         obra = lt.getElement(Lista_sin_info,i)
-        lt.insertElement(Lista_sin_info, ("TransCost USD",costo_defecto),i)
-    #print(lt.size(Lista_sin_info), Costo_total_sin_info)
-    print(Lista_sin_info)
+        obra["Cost_USD"] = costo_defecto
 
+        lt.changeInfo(Lista_sin_info, i, obra)
 
 
     for i in range( 1, lt.size(Lista_con_info)+1):
@@ -682,12 +681,109 @@ def req5(catalog, departamento):
 
         costo = (((depth * diameter * height * Width * length)/0.0001)/72.00)/2 
         Costo_total_con_info += costo
+        obra["Cost_USD"] = costo
 
+        lt.changeInfo(Lista_con_info, i, obra)
         costo_total_translado = Costo_total_con_info + Costo_total_sin_info
-   
-    print("El costo estimado en USD es de " + str(costo_total_translado))
 
-    return 
+
+    for i in range(1, lt.size(Lista_sin_info)):
+       obra = lt.getElement(Lista_con_info, i)
+       lt.addLast(Lista_con_info, obra)
+
+    organizado_fechas= sa.sort(Lista_con_info, comparacionDatecosto)  
+    organizado_costo = sa.sort(Lista_con_info, comparacioncosto)  
+    lista_final = lt.subList(organizado_fechas, 1, 5)
+    lista_ultimos =lt.subList(organizado_costo, 1, 5)
+
+    for i in range(1, lt.size(lista_ultimos)+1):
+       lt.addLast(lista_final, lt.getElement(lista_ultimos, i))
+
+
+    print("El total de obras a transportar es " + str(lt.size(Lista_con_info))) 
+    print("El costo estimado en USD es de " + str(costo_total_translado))
+    resultado = resultado_final_id(lista_final, catalog["artists"])
+
+    return print(resultado)
+
+def comparacioncosto(e1, e2): 
+
+    return e1["Cost_USD"] > e2["Cost_USD"]
+
+def comparacionDatecosto(e1, e2): 
+
+    e1 = e1['Date']
+    e2 = e2['Date']
+    p1 = False
+    p2 = False
+
+    if len(e1) > 0 :
+        p1 = True
+        
+    if len(e2) > 0:
+
+        p2= True
+
+    if p1==True and p2==True:
+    
+     if e1 < e2:
+        
+        resultado = True
+
+     else:
+
+        resultado= False   
+
+    else:
+
+       resultado = False  
+
+    return resultado 
+
+def resultado_final_id(lista, artists):
+    
+    resultado=lt.newList(datastructure='ARRAY_LIST')  
+    iterador = 0
+    diccionario={}
+    artistas= ""
+
+    for i in range(1, lt.size(lista)+1):
+
+        diccionario={}
+        obra = lt.getElement(lista,i)
+        lista_obra = id_a_lista(obra["ConstituentID"])
+        artistas= ""
+
+        for n in lista_obra:
+       
+          iterador = 0  
+          encontrado = False 
+          
+          while iterador <= lt.size(artists) and encontrado != True:
+
+           artista = lt.getElement(artists,iterador)
+
+           if int(n) == int(artista["ConstituentID"]):
+
+            artistas += artista["DisplayName"]
+            encontrado = True 
+
+           else: 
+
+            iterador += 1 
+     
+        diccionario["ObjectID"] = obra["ObjectID"]
+        diccionario["Title"] = obra["Title"]
+        diccionario["ArtistsName"] = artistas
+        diccionario["Classification"] = obra["Classification"]
+        diccionario["Date"] = obra["Date"] 
+        diccionario ["Medium"] = obra["Medium"]
+        diccionario["Dimensions"] = obra["Dimensions"]
+        diccionario["Cost_USD"] = obra["Cost_USD"]
+
+        lt.addLast(resultado, diccionario)    
+      
+    return resultado
 
         
 
