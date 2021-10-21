@@ -55,7 +55,7 @@ def loadArtists(catalog):
     modelo que debe adicionarlo al catalogo.
     """
 
-    artistsfile = cf.data_dir + '/MoMA/Artists-utf8-small.csv'
+    artistsfile = cf.data_dir + '/MoMA/Artists-utf8-large.csv'
     input_file = csv.DictReader(open(artistsfile, encoding='utf-8'))
  
     for artist in input_file:
@@ -64,7 +64,7 @@ def loadArtists(catalog):
     
 
 def loadArtworks(catalog):
-    artworksfile = cf.data_dir + '/MoMA/Artworks-utf8-small.csv'
+    artworksfile = cf.data_dir + '/MoMA/Artworks-utf8-large.csv'
     input_file = csv.DictReader(open(artworksfile, encoding='utf-8'))
     for artworks in input_file:
         model.addArtworks(catalog, artworks)

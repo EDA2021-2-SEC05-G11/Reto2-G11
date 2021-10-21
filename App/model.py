@@ -34,6 +34,7 @@ from DISClib.Algorithms.Sorting import shellsort as sa
 assert cf
 from DISClib.Algorithms.Sorting import mergesort as me
 from datetime import datetime
+from time import process_time
 
 
 
@@ -193,6 +194,7 @@ def r1(catalog, añoini, añofini):
         lt.addLast(lista_final, (((mp.get(catalogo_begin, añofini-1))['value'][-1:])))
         lt.addLast(lista_final, (((mp.get(catalogo_begin, añofini))['value'][-3:])))
     print(lista_final)
+    print(process_time())
     
 
 # Req2
@@ -232,7 +234,7 @@ def req2(catalog,fecha_inicial, fecha_final):
     print ("Existen: " + str(lt.size(lista)) + " obras en el rango de los años dados.")
     print ("Existen " + str(compra) + " obras adquiridas por compra")
 
-    return resultado_final_con_id(lista_final, catalog["artists"])
+    return resultado_final_con_id(lista_final, catalog["artists"]), process_time()
 
 def comparacionDateAcquired(e1, e2): 
 
@@ -447,7 +449,7 @@ def req3(catalog, nombre):
 
             resultado = medium
 
-    return resultado 
+    return resultado, process_time()
 
 def medium_map(lista):
 
@@ -540,6 +542,7 @@ def r4(catalog):
     print("La primeras y ultimas 3 obras de la nacionalidad American son...")
     print()
     print(Lista_final)
+    print(process_time())
 #Req5
 
 def catalg_r5_department(catalog):
@@ -699,9 +702,13 @@ def req5(catalog, departamento):
     for i in range(1, lt.size(lista_ultimos)+1):
        lt.addLast(lista_final, lt.getElement(lista_ultimos, i))
 
-
+    print("La carga estimada de es: 0 kg")
+    print()
     print("El total de obras a transportar es " + str(lt.size(Lista_con_info))) 
+    print()
     print("El costo estimado en USD es de " + str(costo_total_translado))
+    print()
+    print(process_time())
     resultado = resultado_final_id(lista_final, catalog["artists"])
 
     return print(resultado)
