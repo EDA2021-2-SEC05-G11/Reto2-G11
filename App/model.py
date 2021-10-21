@@ -25,6 +25,7 @@
  """
 
 
+from App.controller import obrasmasantiguas
 import config as cf
 from DISClib.ADT import list as lt
 from DISClib.ADT import map as mp
@@ -540,6 +541,7 @@ def r4(catalog):
     print()
     print(Lista_final)
 #Req5
+
 def catalg_r5_department(catalog):
     diccionario={}
     for i in range(1, lt.size(catalog['artworks'])+1):
@@ -555,6 +557,7 @@ def catalg_r5_department(catalog):
         mp.put( catalog['Department'], j, diccionario[j])
     
     return(catalog["Department"])
+
 
 def req5(catalog, departamento):
     catalogo_dept = catalg_r5_department(catalog)
@@ -592,11 +595,17 @@ def req5(catalog, departamento):
              lt.addLast(Lista_sin_info,  i)
          elif i['Dimensions'] == 'Dimensions and duration variable':
              lt.addLast(Lista_sin_info,  i)
+         elif "min." in i['Dimensions'] :
+             lt.addLast(Lista_sin_info,  i)
          else: 
              lt.addLast(Lista_con_info,  i)
-
-    Costo_total_sin_info = (lt.size(Lista_sin_info)*costo_defecto) 
-    print(lt.size(Lista_sin_info), Costo_total_sin_info)
+        
+    Costo_total_sin_info = (lt.size(Lista_sin_info)*costo_defecto)
+    for i in range(1, lt.size(Lista_sin_info)):
+        obra = lt.getElement(Lista_sin_info,i)
+        lt.insertElement(Lista_sin_info, ("TransCost USD",costo_defecto),i)
+    #print(lt.size(Lista_sin_info), Costo_total_sin_info)
+    print(Lista_sin_info)
 
 
 
@@ -674,7 +683,8 @@ def req5(catalog, departamento):
         costo = (((depth * diameter * height * Width * length)/0.0001)/72.00)/2 
         Costo_total_con_info += costo
 
-    costo_total_translado = Costo_total_con_info + Costo_total_sin_info
+        costo_total_translado = Costo_total_con_info + Costo_total_sin_info
+   
     print("El costo estimado en USD es de " + str(costo_total_translado))
 
     return 
